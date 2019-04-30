@@ -27,7 +27,7 @@ class RadioButtons extends React.Component {
   };
 
   render() {
-    const { classes, choices, selectedChoice } = this.props;
+    const { classes, choices } = this.props;
 
     const radioButtons = choices.map(choice => {
       return (
