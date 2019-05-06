@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import classes from './ChoiceSelector.scss';
 import axios from '../Axios/Axios'
-import ChoiceButtons from './RadioButtons/ChoiceButtons'
+import ChoiceButtons from './ChoiceButtons/ChoiceButtons'
 import SoundPlayer from '../SoundPlayer/SoundPlayer'
-
 
 class ChoiceSelector extends Component {
   constructor(props) {
@@ -211,10 +210,6 @@ class ChoiceSelector extends Component {
                 selectedMood = {this.selectedMood}
                 selectedStrain = {this.state.selectedStrain}
               />
-              {/* <RadioButtons 
-                choices = {[{title: 'Like'}, {title:'Dislike'}]}
-                selectedChoice = {this.handleTagsAdded}
-              /> */}
             </div>
             :
             null

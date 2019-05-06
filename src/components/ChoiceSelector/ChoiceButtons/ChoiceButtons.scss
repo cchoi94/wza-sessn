@@ -82,6 +82,12 @@ button {
   justify-content: space-around;
 }
 
+@media (max-width: 2000px) {
+  .secondaryBtn {
+    margin: 32px;
+  }
+}
+
 @media (max-width: 480px) {
   button {
     font-size: 24px;

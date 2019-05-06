@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { withSoundCloudAudio } from 'react-soundplayer/addons';
 import classes from './SoundPlayer.scss';
+import ProgressLoader from '../ProgressLoader/ProgressLoader'
+
 
 const clientId = 'TBRKIe4bQyw60lg53250YpZsB6tM1OmG';
 
@@ -43,7 +45,7 @@ class SoundPlayer extends Component {
 
 
       if (!track) {
-        return <div>Loading...</div>;
+        return <ProgressLoader />;
       }
       
       if (currentTime) {
