@@ -15,4 +15,24 @@ body {
   text-decoration: underline;
   margin-top: 106px;
   cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+
+:global(.topGutter) {
+  margin-top: 249px;
+}
+
+:global(.center) {
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+    :global(.backBtn) {
+      font-size: 24px;
+      margin-top: 52px;
+  }
+  :global(.topGutter) {
+    margin-top: 16px;
+  }
 }

@@ -41,14 +41,14 @@ class ChoiceButtons extends React.Component {
     })
 
     return (
-      <div className={classes.ChoiceBtnContainer}>
-        {choiceButtons}
-        {this.props.selectedStrain !== "" ?
-          <p className="backBtn" onClick={this.handleBack}>BACK</p>
-          :
-          null
-        }
-      </div>
+        <div className={classes.ChoiceBtnContainer}>
+          {choiceButtons}
+          {this.props.selectedStrain !== "" ?
+            <p className="backBtn" onClick={this.handleBack}>BACK</p>
+            :
+            null
+          }
+        </div>
     );
   }
 }

@@ -49,26 +49,42 @@ class SoundPlayer extends Component {
       if (currentTime) {
         if ((currentTime > 120 && currentTime < 120.3)) {
           this.props.onTrackLike('Like');
-          console.log('liek tiem reached');
         }
       }
+
+      console.log(this.props)
       
       return (
         <div className={classes.SoundPlayerContainer}>
           <h2 className={classes.TrackName}>{track.title}</h2>
           <h3 className={classes.TrackArtist}>{track.user.username}</h3>
-          <div className={classes.ButtonContainer}>
-            <button onClick={() => play()}>
-              {playing ?
-                  <img src={require('../../assets/warmPauseBtn.svg')} />
-                : 
-                  <img src={require('../../assets/warmPlayBtn.svg')} />
-              }
-            </button>
-            <button {...props} onClick={() => {this.props.handlePlaylistSongExtraction(this.state.playlist, 'Next')}}>
-              <img src={require('../../assets/warmForwardBtn.svg')} />
-            </button>
-          </div>
+          {this.props.selectedStrain === 'Sativa' ?
+            <div className={classes.ButtonContainer}>
+              <button onClick={() => play()}>
+                {playing ?
+                    <img src={require('../../assets/warmPauseBtn.svg')} />
+                  : 
+                    <img src={require('../../assets/warmPlayBtn.svg')} />
+                }
+              </button>
+              <button {...props} onClick={() => {this.props.handlePlaylistSongExtraction(this.state.playlist, 'Next')}}>
+                <img src={require('../../assets/warmForwardBtn.svg')} />
+              </button>
+            </div>
+          :
+            <div className={classes.ButtonContainer}>
+              <button onClick={() => play()}>
+                {playing ?
+                    <img src={require('../../assets/coldPauseBtn.svg')} />
+                  : 
+                    <img src={require('../../assets/coldPlayBtn.svg')} />
+                }
+              </button>
+                <button {...props} onClick={() => {this.props.handlePlaylistSongExtraction(this.state.playlist, 'Next')}}>
+                  <img src={require('../../assets/coldForwardBtn.svg')} />
+                </button>
+            </div>
+          }
           <p className="backBtn" onClick={this.handleBack}>BACK</p>
         </div>
       );

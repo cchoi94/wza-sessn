@@ -60,6 +60,7 @@ button {
 .primaryBtn {
   width: 240px;
   height: 80px;
+  margin: 48px;
 }
 
 .secondaryBtn {
@@ -75,8 +76,18 @@ button {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  // position: absolute;
+  // top: 50%;
+  // transform: translateY(-50%);
   justify-content: space-around;
+}
+
+@media (max-width: 480px) {
+  button {
+    font-size: 24px;
+  }
+  .secondaryBtn {
+    width: 360px;
+    margin: 24px;
+  } 
 }

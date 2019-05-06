@@ -22,3 +22,14 @@
 .TrackName{
   margin: 204px 0 51px 0
 }
+
+@media (max-width: 480px) {
+  .TrackName{
+    margin: 102px 0 25px 0;
+  }
+  .ButtonContainer {
+    :last-child {
+      margin-right: 38px;
+    }
+}
+}

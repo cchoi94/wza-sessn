@@ -160,10 +160,6 @@ class ChoiceSelector extends Component {
     }
   }
 
-  test() {
-    console.log(this.state.selectedUrl)
-  }
-
   render() {
     const {data, selectedStrain, selectedMood, selectedUrl} = this.state
 
@@ -171,12 +167,15 @@ class ChoiceSelector extends Component {
       data.map(flow => {
         if (flow.title === this.state.selectedStrain) {
           return (
-            <ChoiceButtons 
-              choices = {flow.moods}
-              selectedChoice = {this.selectedMood}
-              selectedStrain = {this.selectedStrain}
-              buttonStyle = 'secondaryBtn'
-            />
+            <div>
+              <p className="Subtitle topGutter center">What you feeling?</p>
+              <ChoiceButtons 
+                choices = {flow.moods}
+                selectedChoice = {this.selectedMood}
+                selectedStrain = {this.selectedStrain}
+                buttonStyle = 'secondaryBtn'
+              />
+            </div>
           )
         }
       })
@@ -187,8 +186,8 @@ class ChoiceSelector extends Component {
         &&
         <div className={classes.HeroBox}>
           <div className={classes.HeaderContainer}>
-            <p className={classes.Title}>WZA</p>
-            <p className={classes.Subtitle}>what you hitting?</p>
+            <p className="Title">WZA</p>
+            <p className="Subtitle">what you hitting?</p>
           </div>
             <ChoiceButtons 
               choices = {data}
@@ -210,6 +209,7 @@ class ChoiceSelector extends Component {
                 handlePlaylistSongExtraction = {this.handlePlaylistSongExtraction}
                 onTrackLike = {this.handleTagsAdded}
                 selectedMood = {this.selectedMood}
+                selectedStrain = {this.state.selectedStrain}
               />
               {/* <RadioButtons 
                 choices = {[{title: 'Like'}, {title:'Dislike'}]}
