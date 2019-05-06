@@ -67,7 +67,7 @@ class ChoiceSelector extends Component {
     })
   }
 
-  handlePlaylistSongExtraction = (playlistInfo, audioAction) => {
+  handlePlaylistSongExtraction = (playlistInfo) => {
     const playlistTracks = playlistInfo.tracks
     let selectAudioUrl;
     const randomIndex = Math.floor(Math.random() * (playlistTracks.length - 1));
@@ -77,12 +77,6 @@ class ChoiceSelector extends Component {
     this.setState({
       selectedUrl: selectAudioUrl[0].permalink_url
     })
-
-    if (audioAction === 'Next') {
-      this.setState({
-        selectedRateValue: ''
-      })
-    }
 
   }
 
