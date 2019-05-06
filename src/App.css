@@ -1,1 +1,18 @@
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0
+}
 
+body {
+  font-family: 'Lato', sans-serif;
+  background: #1D1E25;
+  color: #F2F2F2;
+}
+
+:global(.backBtn) {
+  font-size: 40px;
+  text-decoration: underline;
+  margin-top: 106px;
+  cursor: pointer;
+}

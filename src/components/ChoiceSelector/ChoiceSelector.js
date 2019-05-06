@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import classes from './ChoiceSelector.scss';
 import axios from '../Axios/Axios'
-import RadioButtons from './RadioButtons/RadioButtons'
+import ChoiceButtons from './RadioButtons/ChoiceButtons'
 import SoundPlayer from '../SoundPlayer/SoundPlayer'
+
 
 class ChoiceSelector extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class ChoiceSelector extends Component {
       selectedMood: '',
       selectedUrl: '',
       existingSongs: [],
-      selectedRateValue: ''
+      selectedRateValue: '',
     }
 
     this.fetchChoiceSelectorItems = this.fetchChoiceSelectorItems.bind(this)
@@ -34,7 +35,6 @@ class ChoiceSelector extends Component {
       this.setState({
         existingSongs: response.data
       })
-      console.log(this.state.existingSongs)
     }).catch (
       error => {
         console.log(error)
@@ -42,24 +42,16 @@ class ChoiceSelector extends Component {
   }
 
   selectedStrain = (strain) => {
-    if (this.state.selectedStrain === strain) {
-      return
-    } else {
-      this.setState({
-        selectedStrain: strain,
-        selectedMood: ''
-      })
-    }
+    this.setState({
+      selectedStrain: strain,
+      selectedMood: ''
+    })
   }
 
   selectedMood = (mood) => {
-    if (this.state.selectedMood === mood) {
-      return
-    } else {
       this.setState({
         selectedMood: mood
       }, () => this.fetchSongs())
-    }
   }
 
   fetchSongs = () => {
@@ -86,17 +78,16 @@ class ChoiceSelector extends Component {
     this.setState({
       selectedUrl: selectAudioUrl[0].permalink_url
     })
+
     if (audioAction === 'Next') {
       this.setState({
         selectedRateValue: ''
       })
     }
+
   }
 
   handleTagsAdded = (rateValue) => {
-    this.setState({
-      selectedRateValue: rateValue
-    })
     const existingSongs = this.state.existingSongs
     let songInfo = {
       url: this.state.selectedUrl,
@@ -110,8 +101,12 @@ class ChoiceSelector extends Component {
         if (existingSongs[song].url === this.state.selectedUrl) {
           Object.assign(songInfo, existingSongs[song]);
           if ((Object.keys(songInfo.tags.strains)).indexOf(this.state.selectedStrain) > -1) {
-            if (rateValue === 'Like') {
+            if (rateValue === 'Like' && this.state.selectedRateValue === "") {
               songInfo.tags.strains[`${this.state.selectedStrain}`] += 1
+            } else if (rateValue === 'Like' && this.state.selectedRateValue !== 'Dislike') {
+              songInfo.tags.strains[`${this.state.selectedStrain}`] += 2
+            } else if (rateValue === 'Dislike' && this.state.selectedRateValue !== 'Like') {
+              songInfo.tags.strains[`${this.state.selectedStrain}`] -= 2
             }
             else {
               if (songInfo.tags.strains[`${this.state.selectedStrain}`] !== 0) {
@@ -120,8 +115,12 @@ class ChoiceSelector extends Component {
             }
           }
           if ((Object.keys(songInfo.tags.moods)).indexOf(this.state.selectedMood) > -1) {
-            if (rateValue === 'Like') {
+            if (rateValue === 'Like' && this.state.selectedRateValue === "") {
               songInfo.tags.moods[`${this.state.selectedMood}`] += 1
+            } else if (rateValue === 'Like' && this.state.selectedRateValue !== 'Dislike') {
+              songInfo.tags.strains[`${this.state.selectedMood}`] += 2
+            } else if (rateValue === 'Dislike' && this.state.selectedRateValue !== 'Like') {
+              songInfo.tags.strains[`${this.state.selectedMood}`] -= 2
             }
             else {
               if (songInfo.tags.moods[`${this.state.selectedMood}`] !== 0) {
@@ -135,10 +134,17 @@ class ChoiceSelector extends Component {
           songInfo.tags.moods[`${this.state.selectedMood}`] = songInfo.tags.moods[`${this.state.selectedMood}`] || 1
         }
       })
-
+      
+      // when deleteing song database, comment out this if condition to get song on
       if (songInfo.tags.strains[`${this.state.selectedStrain}`] === 1 && songInfo.tags.moods[`${this.state.selectedMood}`] === 1) {
           axios.post('/songs.json', songInfo)
       }
+    
+
+
+    this.setState({
+      selectedRateValue: rateValue
+    })
 
   }
 
@@ -146,56 +152,74 @@ class ChoiceSelector extends Component {
     this.fetchChoiceSelectorItems()
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if(nextState.selectedRateValue !== '') {
+      return false
+    } else {
+      return true
+    }
+  }
+
   test() {
     console.log(this.state.selectedUrl)
   }
 
   render() {
-    const {data, selectedStrain, selectedMood, selectedUrl, selectedRateValue} = this.state
+    const {data, selectedStrain, selectedMood, selectedUrl} = this.state
 
     const fetchMoods =
       data.map(flow => {
         if (flow.title === this.state.selectedStrain) {
           return (
-            <RadioButtons 
+            <ChoiceButtons 
               choices = {flow.moods}
               selectedChoice = {this.selectedMood}
+              selectedStrain = {this.selectedStrain}
+              buttonStyle = 'secondaryBtn'
             />
           )
         }
       })
  
     return (
-      <div className={classes.ChoiceSelectorContainer}>
-        <RadioButtons 
-          choices = {data}
-          selectedChoice = {this.selectedStrain}
-          // key = {data.index}
-        />
-        {selectedStrain !== "" ?
-          fetchMoods
-          :
-          null
-        }
-        {selectedMood !== "" ?
-          <div>
-            <SoundPlayer 
-              audioUrl = {selectedUrl}
-              handlePlaylistSongExtraction = {this.handlePlaylistSongExtraction}
+      <div>
+        {!selectedStrain
+        &&
+        <div className={classes.HeroBox}>
+          <div className={classes.HeaderContainer}>
+            <p className={classes.Title}>WZA</p>
+            <p className={classes.Subtitle}>what you hitting?</p>
+          </div>
+            <ChoiceButtons 
+              choices = {data}
+              selectedStrain = {selectedStrain}
+              selectedChoice = {this.selectedStrain}
+              buttonStyle = 'primaryBtn'
             />
-            {selectedRateValue == "" ?
-              <RadioButtons 
+        </div>
+        }
+        {!selectedMood
+        &&
+        fetchMoods
+        }
+        <div className={classes.ChoiceSelectorContainer}>
+          {selectedMood !== "" ?
+            <div>
+              <SoundPlayer 
+                audioUrl = {selectedUrl}
+                handlePlaylistSongExtraction = {this.handlePlaylistSongExtraction}
+                onTrackLike = {this.handleTagsAdded}
+                selectedMood = {this.selectedMood}
+              />
+              {/* <RadioButtons 
                 choices = {[{title: 'Like'}, {title:'Dislike'}]}
                 selectedChoice = {this.handleTagsAdded}
-              />
+              /> */}
+            </div>
             :
             null
-            }
-          </div>
-          :
-          null
-        }
-        <button onClick={() => this.test()}>test</button>
+          }
+        </div>
       </div>
     );
   }

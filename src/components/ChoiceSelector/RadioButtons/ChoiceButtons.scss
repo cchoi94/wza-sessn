@@ -1,0 +1,82 @@
+button {
+  border: none;
+  outline: none;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-style: 1.2em;
+  font-size: 36px;
+  font-family: 'Lato';
+  letter-spacing: 0.2em;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  background: none;
+  text-shadow: 3px 3px 10px rgba(0,0,0,.45);
+  &:before, &:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 10em;
+    transform: translateX(-50%) translateY(-50%);
+    width: 105%;
+    height: 105%;
+    content: '';
+    z-index: -2;
+    background-size: 400% 400%;
+  }
+  &:before {
+    filter: blur(7px);
+    transition: all .25s ease;
+    animation: pulse 10s infinite ease;
+  }
+  &:after {
+    filter: blur(0.3px);
+  }
+  &:hover {
+    &:before {
+      width: 115%;
+      height: 115%;
+    }
+  }
+}
+
+.warm {
+    &:before, &:after {
+      background: linear-gradient(244.64deg, #F79533 7.78%, #F37055 44.76%, #EF4E7B 70.7%, #A166AB 100%)}
+    }
+
+.hybrid {
+    &:before, &:after {
+      background: linear-gradient(95.3deg, #F79533 -23.64%, #F37055 -2.93%, #EF4E7B 18.48%, #A166AB 38.51%, #5073B8 56.47%, #1098AD 73.73%, #07B39B 90.99%, #6FBA82 108.95%)
+    }
+}
+
+.cold {
+    &:before, &:after {
+      background: linear-gradient(244.64deg, #5073B8 7.78%, #1098AD 44.76%, #07B39B 70.7%, #6FBA82 100%)}
+    }
+
+.primaryBtn {
+  width: 240px;
+  height: 80px;
+}
+
+.secondaryBtn {
+  width: 500px;
+  height: 80px;
+  background: transparent !important;
+  border: 1px solid white;
+  margin: 48px;
+  border-radius: 50px;
+}
+
+.ChoiceBtnContainer {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  justify-content: space-around;
+}

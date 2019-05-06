@@ -1,64 +1,36 @@
-// import React, { Component } from 'react'
-// import ReactPlayer from 'react-player'
- 
-// class SoundPlayer extends Component {
-//   constructor(props) {
-//     super(props)
-//   }
-
-//   render () {
-//     const { audioUrl } = this.props
-//     return (
-//     <div>
-//       <ReactPlayer 
-//         url={audioUrl} 
-//         volume={1}
-//         playing={true}
-//       controls />
-
-//     </div>
-//               // KT6UCHXC9iNnI8wn4UUfwMSlAPe4Z8zx
-//               // TBRKIe4bQyw60lg53250YpZsB6tM1OmG
-              
-//     )
-//   }
-// }
-
-// export default SoundPlayer
-
 import React, {Component} from 'react';
 import { withSoundCloudAudio } from 'react-soundplayer/addons';
-import { Progress, PlayButton, Timer, VolumeControl, Icons, NextButton, PrevButton } from 'react-soundplayer/components'
-
+import classes from './SoundPlayer.scss';
 
 const clientId = 'TBRKIe4bQyw60lg53250YpZsB6tM1OmG';
 
 class SoundPlayer extends Component {
+    constructor(props) {
+      super(props)
+        this.state = {
+          playlist: ''
+        }
 
-    state = {
-      playlist: ''
+      this.handleBack = this.handleBack.bind(this)
     }
 
-    // handleAudioUrlChange = (playlist) => {
-    //   this.props.handlePlaylistSongExtraction(playlist)
-    // }
+      handleBack() {
+        this.props.selectedMood("")
+      }
 
     render() {
       const CustomPlayer = withSoundCloudAudio(props => {
       const { soundCloudAudio, playing, playlist, track, currentTime, duration } = props;
-      const {
-        SoundCloudLogoSVG,
-        PlayIconSVG,
-        PauseIconSVG,
-        NextIconSVG,
-        PrevIconSVG
-      } = Icons;
 
       if (playlist) {
         this.props.handlePlaylistSongExtraction(playlist)
         this.setState({
           playlist
         })
+      }
+
+      if (track && currentTime === 0) {
+        soundCloudAudio.play()
       }
 
       const play = () => {
@@ -69,30 +41,35 @@ class SoundPlayer extends Component {
         }
       };
 
+
       if (!track) {
         return <div>Loading...</div>;
       }
-
+      
+      if (currentTime) {
+        if ((currentTime > 120 && currentTime < 120.3)) {
+          this.props.onTrackLike('Like');
+          console.log('liek tiem reached');
+        }
+      }
+      
       return (
-        <div>
-          <h2>{track.title}</h2>
-          <h3>{track.user.username}</h3>
-          <button onClick={() => play()}>
-            {playing ? 'Pause' : 'Play'}
-          </button>
-          <PrevButton {...props} />
-          <button {...props} onClick={() => {this.props.handlePlaylistSongExtraction(this.state.playlist, 'Next')}}>
-          NextButton
-          </button>
-          <VolumeControl
-            {...props} 
-          />
-          <Timer 
-            {...props}
-          />
-          <Progress
-            {...props}
-          />
+        <div className={classes.SoundPlayerContainer}>
+          <h2 className={classes.TrackName}>{track.title}</h2>
+          <h3 className={classes.TrackArtist}>{track.user.username}</h3>
+          <div className={classes.ButtonContainer}>
+            <button onClick={() => play()}>
+              {playing ?
+                  <img src={require('../../assets/warmPauseBtn.svg')} />
+                : 
+                  <img src={require('../../assets/warmPlayBtn.svg')} />
+              }
+            </button>
+            <button {...props} onClick={() => {this.props.handlePlaylistSongExtraction(this.state.playlist, 'Next')}}>
+              <img src={require('../../assets/warmForwardBtn.svg')} />
+            </button>
+          </div>
+          <p className="backBtn" onClick={this.handleBack}>BACK</p>
         </div>
       );
     });
@@ -101,10 +78,9 @@ class SoundPlayer extends Component {
         resolveUrl={this.props.audioUrl}
         clientId={clientId}
         onReady={() => {
-          console.log('player url ready!');
         }}
         onStopTrack={() => {
-          console.log('Track has stopped')
+          this.props.handlePlaylistSongExtraction(this.state.playlist, 'Next')
         }} />
     );
     }

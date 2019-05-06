@@ -1,0 +1,24 @@
+.SoundPlayerContainer {
+  display: block;
+  position: relative;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.ButtonContainer {
+  display: flex;
+  position: relative;
+  width: 10em;
+  margin: 0 auto;
+    :last-child {
+      margin-right: 77px;
+    }
+}
+
+.TrackArtist{
+  margin-bottom: 102px;
+}
+
+.TrackName{
+  margin: 204px 0 51px 0
+}
