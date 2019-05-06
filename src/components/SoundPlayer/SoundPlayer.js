@@ -16,9 +16,9 @@ class SoundPlayer extends Component {
       this.handleBack = this.handleBack.bind(this)
     }
 
-      handleBack() {
-        this.props.selectedMood("")
-      }
+    handleBack() {
+      this.props.selectedMood("")
+    }
 
     render() {
       const CustomPlayer = withSoundCloudAudio(props => {
@@ -35,6 +35,11 @@ class SoundPlayer extends Component {
         if (!playing) {
           soundCloudAudio.play()
         }
+      }
+
+      if (track && currentTime > (duration - 0.3) && duration !== 0){
+        console.log('track ended');
+        this.props.handlePlaylistSongExtraction(this.state.playlist, 'Next')
       }
 
       const play = () => {
@@ -69,7 +74,7 @@ class SoundPlayer extends Component {
                     <img src={require('../../assets/warmPlayBtn.svg')} />
                 }
               </button>
-              <button {...props} onClick={() => {this.props.handlePlaylistSongExtraction(this.state.playlist)}}>
+              <button {...props} onClick={() => {this.props.handlePlaylistSongExtraction(this.state.playlist, 'Next')}}>
                 <img src={require('../../assets/warmForwardBtn.svg')} />
               </button>
             </div>
@@ -82,7 +87,7 @@ class SoundPlayer extends Component {
                     <img src={require('../../assets/coldPlayBtn.svg')} />
                 }
               </button>
-                <button {...props} onClick={() => {this.props.handlePlaylistSongExtraction(this.state.playlist)}}>
+                <button {...props} onClick={() => {this.props.handlePlaylistSongExtraction(this.state.playlist, 'Next')}}>
                   <img src={require('../../assets/coldForwardBtn.svg')} />
                 </button>
             </div>
@@ -98,7 +103,7 @@ class SoundPlayer extends Component {
         onReady={() => {
         }}
         onStopTrack={() => {
-          this.props.handlePlaylistSongExtraction(this.state.playlist)
+          this.props.handlePlaylistSongExtraction(this.state.playlist, 'Next')
         }} />
     );
     }

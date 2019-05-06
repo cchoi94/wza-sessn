@@ -75,7 +75,7 @@ class ChoiceSelector extends Component {
       return randomIndex === index
     })
     this.setState({
-      selectedUrl: selectAudioUrl[0].permalink_url
+      selectedUrl: selectAudioUrl[0].permalink_url,
     })
 
   }
@@ -146,10 +146,11 @@ class ChoiceSelector extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if(nextState.selectedRateValue !== '') {
-      return false
-    } else {
+    console.log(nextState, this.state.selectedUrl)
+    if((nextState.selectedUrl !== this.state.selectedUrl) || this.state.selectedUrl === '' || nextState.selectedMood === '' || nextState.selectedStrain === '') {
       return true
+    } else {
+      return false
     }
   }
 
