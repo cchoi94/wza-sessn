@@ -31,8 +31,10 @@ class SoundPlayer extends Component {
         })
       }
 
-      if (track && currentTime === 0 && !playing) {
-        soundCloudAudio.play()
+      if (track && currentTime === 0) {
+        if (!playing) {
+          soundCloudAudio.play()
+        }
       }
 
       const play = () => {
