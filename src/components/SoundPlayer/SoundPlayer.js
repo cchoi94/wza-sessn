@@ -10,8 +10,7 @@ class SoundPlayer extends Component {
     constructor(props) {
       super(props)
         this.state = {
-          playlist: '',
-          currentTrackUrl: ''
+          playlist: ''
         }
 
       this.handleBack = this.handleBack.bind(this)
@@ -19,22 +18,6 @@ class SoundPlayer extends Component {
 
       handleBack() {
         this.props.selectedMood("")
-      }
-
-      shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.audioUrl !== nextState.currentTrackUrl) {
-          return true
-        } else {
-          return false
-        }
-      }
-
-      handleNewSong() {
-        if(this.props.audioUrl !== this.state.currentTrackUrl) {
-            this.setState({
-              currentTrackUrl: this.props.audioUrl
-            })
-        }
       }
 
     render() {
@@ -48,8 +31,10 @@ class SoundPlayer extends Component {
         })
       }
 
-      if (track && this.state.currentTrackUrl !== this.props.audioUrl) {
-        soundCloudAudio.play()
+      if (track && currentTime === 0) {
+        if (!playing) {
+          soundCloudAudio.play()
+        }
       }
 
       const play = () => {
@@ -84,7 +69,7 @@ class SoundPlayer extends Component {
                     <img src={require('../../assets/warmPlayBtn.svg')} />
                 }
               </button>
-              <button {...props} onClick={() => {this.props.handlePlaylistSongExtraction(this.state.playlist, 'Next')}}>
+              <button {...props} onClick={() => {this.props.handlePlaylistSongExtraction(this.state.playlist)}}>
                 <img src={require('../../assets/warmForwardBtn.svg')} />
               </button>
             </div>
@@ -97,7 +82,7 @@ class SoundPlayer extends Component {
                     <img src={require('../../assets/coldPlayBtn.svg')} />
                 }
               </button>
-                <button {...props} onClick={() => {this.props.handlePlaylistSongExtraction(this.state.playlist, 'Next')}}>
+                <button {...props} onClick={() => {this.props.handlePlaylistSongExtraction(this.state.playlist)}}>
                   <img src={require('../../assets/coldForwardBtn.svg')} />
                 </button>
             </div>
@@ -111,7 +96,6 @@ class SoundPlayer extends Component {
         resolveUrl={this.props.audioUrl}
         clientId={clientId}
         onReady={() => {
-          this.handleNewSong()
         }}
         onStopTrack={() => {
           this.props.handlePlaylistSongExtraction(this.state.playlist)
