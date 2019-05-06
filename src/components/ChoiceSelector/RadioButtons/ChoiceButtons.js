@@ -27,7 +27,7 @@ class ChoiceButtons extends React.Component {
     const { choices, buttonStyle } = this.props;
 
     const choiceButtons = choices.map(choice => {
-      console.log(this.props)
+
       return (
         <div>
           <button 

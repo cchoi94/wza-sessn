@@ -51,8 +51,6 @@ class SoundPlayer extends Component {
           this.props.onTrackLike('Like');
         }
       }
-
-      console.log(this.props)
       
       return (
         <div className={classes.SoundPlayerContainer}>
